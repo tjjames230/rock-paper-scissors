@@ -1,46 +1,64 @@
 answers = ["rock", "paper", "scissors"];
+let playerScore = 0;
+let computerScore = 0;
 
 function getComputerChoice() {
   return answers[Math.floor(Math.random() * 3)];
 }
 
-const computerSelection = getComputerChoice();
+function getPlayerChoice() {
+  let question = prompt("Select rock, paper or scissors");
+  return question;
+}
 
-function playGame(player, computerChoice) {
-  const playerChoice = player.toLowerCase();
+function playGame() {
+  while (playerScore < 3 || computerScore < 3) {
+    playRound();
+  }
+}
+
+function playRound() {
+  const computerChoice = getComputerChoice();
+  const playerChoice = getPlayerChoice().toLowerCase();
 
   if (playerChoice === computerChoice) {
-    return "draw";
+    return `You both picked ${playerChoice}, draw. The score is player: ${playerScore} computer: ${computerScore}`;
   } else {
     if (playerChoice === "rock") {
       switch (computerChoice) {
         case "paper":
-          return "player loses";
+          computerScore++;
+          return `Paper beats rock, player loses. The score is player: ${playerScore} computer: ${computerScore}`;
           break;
         case "scissors":
-          return "player wins";
+          playerScore++;
+          return `Rock beats scissors, player wins. The score is player: ${playerScore} computer: ${computerScore}`;
           break;
       }
     } else if (playerChoice === "paper") {
       switch (computerChoice) {
         case "rock":
-          return "player wins";
+          playerScore++;
+          return `Paper beats rock, player wins. The score is player: ${playerScore} computer: ${computerScore}`;
           break;
         case "scissors":
-          return "player loses";
+          computerScore++;
+          return `Scissors beats paper, player loses. The score is player: ${playerScore} computer: ${computerScore}`;
           break;
       }
     } else {
       switch (computerChoice) {
         case "rock":
-          return "player loses";
+          computerScore++;
+          return `Rock beats scissors, player loses. The score is player: ${playerScore} computer: ${computerScore}`;
           break;
         case "paper":
-          return "player wins";
+          playerScore++;
+          return `Scissors beats paper, player wins. The score is player: ${playerScore} computer: ${computerScore}`;
           break;
       }
     }
   }
 }
 
-console.log(playGame("rock", computerSelection));
+console.log(playGame());
