@@ -28,18 +28,21 @@ function playRound() {
   let playerChoice = getPlayerChoice();
 
   if (playerChoice === computerChoice) {
-    return `You both picked ${playerChoice}, it's a draw. The score is player: ${playerScore} computer: ${computerScore}`;
+    return `You both picked ${playerChoice}, it's a draw. 
+    The score is player: ${playerScore} computer: ${computerScore}`;
   } else if (
     (playerChoice === "rock" && computerChoice === "scissors") ||
     (playerChoice === "paper" && computerChoice === "rock") ||
     (playerChoice === "scissors" && computerChoice === "paper")
   ) {
     playerScore++;
-    return `You win! ${playerChoice} beats ${computerChoice}. The score is player: ${playerScore} computer: ${computerScore}`;
+    return `You win! ${playerChoice} beats ${computerChoice}.
+    The score is player: ${playerScore} computer: ${computerScore}`;
   } else {
     computerScore++;
-    return `Computer wins! ${computerChoice} beats ${playerChoice}. The score is player: ${playerScore} computer: ${computerScore}`;
+    return `Computer wins! ${computerChoice} beats ${playerChoice}.
+    The score is player: ${playerScore} computer: ${computerScore}`;
   }
 }
 
-console.log(playGame());
+playGame();
