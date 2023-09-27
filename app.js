@@ -1,21 +1,18 @@
 const answers = ["rock", "paper", "scissors"];
-const playerScore = document.querySelector("#player-score");
-const computerScore = document.querySelector("#computer-score");
+let playerScore = 0;
+let computerScore = 0;
 const btns = Array.from(document.querySelectorAll(".btn-card"));
-
-btns.forEach((button) => {
-  button.addEventListener("mouseenter", (e) => {
-    e.target.classList.toggle("shadow");
-  });
-
-  button.addEventListener("mouseleave", (e) => {
-    e.target.classList.toggle("shadow");
-  });
-});
+const result = document.querySelector("#result");
+let gameEnded = false; // Flag to track if the game has ended
 
 btns.forEach((button) => {
   button.addEventListener("click", (e) => {
-    console.log(e.target.id);
+    if (!gameEnded) {
+      const playerChoice = e.currentTarget.id;
+      const computerChoice = getComputerChoice();
+
+      playRound(playerChoice, computerChoice);
+    }
   });
 });
 
@@ -23,41 +20,42 @@ function getComputerChoice() {
   return answers[Math.floor(Math.random() * 3)];
 }
 
-function getPlayerChoice() {
-  let question = prompt("Select rock, paper, or scissors");
-  return question.toLowerCase();
-}
-
-function playGame() {
-  while (playerScore < 3 && computerScore < 3) {
-    console.log(playRound());
+function playRound(playerChoice, computerChoice) {
+  if (gameEnded) {
+    return; // Do nothing if the game has ended
   }
-
-  if (playerScore > computerScore) {
-    return "Player wins the game!";
-  } else {
-    return "Computer wins the game!";
-  }
-}
-
-function playRound() {
-  let computerChoice = getComputerChoice();
-  let playerChoice;
 
   if (playerChoice === computerChoice) {
-    return `You both picked ${playerChoice}, it's a draw. 
-    The score is player: ${playerScore} computer: ${computerScore}`;
+    result.textContent = `You both picked ${playerChoice}, it's a draw.`;
   } else if (
     (playerChoice === "rock" && computerChoice === "scissors") ||
     (playerChoice === "paper" && computerChoice === "rock") ||
     (playerChoice === "scissors" && computerChoice === "paper")
   ) {
     playerScore++;
-    return `You win! ${playerChoice} beats ${computerChoice}.
-    The score is player: ${playerScore} computer: ${computerScore}`;
+    result.textContent = `You win! ${playerChoice} beats ${computerChoice}.`;
   } else {
     computerScore++;
-    return `Computer wins! ${computerChoice} beats ${playerChoice}.
-    The score is player: ${playerScore} computer: ${computerScore}`;
+    result.textContent = `Computer wins! ${computerChoice} beats ${playerChoice}.`;
+  }
+
+  // Update the scores in the DOM
+  document.querySelector("#player-score").textContent = playerScore;
+  document.querySelector("#computer-score").textContent = computerScore;
+
+  // Check if one of the players has won the game (e.g., reached a score of 3)
+  if (playerScore >= 3 || computerScore >= 3) {
+    gameEnded = true; // Set the flag to end the game
+
+    if (playerScore > computerScore) {
+      result.textContent = "Player wins the game!";
+    } else {
+      result.textContent = "Computer wins the game!";
+    }
+
+    // Disable the buttons to end the game
+    btns.forEach((button) => {
+      button.removeEventListener("click", () => {});
+    });
   }
 }
