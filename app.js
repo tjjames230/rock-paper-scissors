@@ -1,6 +1,23 @@
 const answers = ["rock", "paper", "scissors"];
-let playerScore = 0;
-let computerScore = 0;
+const playerScore = document.querySelector("#player-score");
+const computerScore = document.querySelector("#computer-score");
+const btns = Array.from(document.querySelectorAll(".btn-card"));
+
+btns.forEach((button) => {
+  button.addEventListener("mouseenter", (e) => {
+    e.target.classList.toggle("shadow");
+  });
+
+  button.addEventListener("mouseleave", (e) => {
+    e.target.classList.toggle("shadow");
+  });
+});
+
+btns.forEach((button) => {
+  button.addEventListener("click", (e) => {
+    console.log(e.target.id);
+  });
+});
 
 function getComputerChoice() {
   return answers[Math.floor(Math.random() * 3)];
@@ -25,7 +42,7 @@ function playGame() {
 
 function playRound() {
   let computerChoice = getComputerChoice();
-  let playerChoice = getPlayerChoice();
+  let playerChoice;
 
   if (playerChoice === computerChoice) {
     return `You both picked ${playerChoice}, it's a draw. 
@@ -44,5 +61,3 @@ function playRound() {
     The score is player: ${playerScore} computer: ${computerScore}`;
   }
 }
-
-playGame();
